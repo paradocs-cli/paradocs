@@ -51,5 +51,5 @@ func init() {
 	// is called directly, e.g.:
 	// terraformCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	terraformCmd.PersistentFlags().StringVarP( &WorkingDir, "working-dir", "w", ".", "Working directory for running doc generation, defaults to '.'")
-	rootCmd.MarkPersistentFlagRequired("working-dir")
+	terraformCmd.MarkPersistentFlagRequired("working-dir")
 }
