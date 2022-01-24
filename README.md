@@ -1,12 +1,12 @@
-#ParaDocs 
+# ParaDocs 
 
-##What the tool is for: 
+## What the tool is for: 
 
-##How to install: 
+## How to install: 
 
-##How to use ParaDocs:
+## How to use ParaDocs:
 
-##How to contribute :
+## How to contribute:
 
-##References: 
+## References: 
 
