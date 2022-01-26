@@ -53,7 +53,7 @@ func init() {
 		log.Printf(err.Error())
 		os.Exit(1)
 	}
-	tfCloudCmd.PersistentFlags().StringVarP(&ProviderConfigs.TerraformCloud.WorkspaceId, "workspace-id", "w", "", "id needed for authentication to workspace for TFC api")
+	tfCloudCmd.PersistentFlags().StringVarP(&ProviderConfigs.TerraformCloud.WorkspaceId, "workspace-id", "i", "", "id needed for authentication to workspace for TFC api")
 	err = tfCloudCmd.MarkPersistentFlagRequired("workspace-id")
 	if err != nil {
 		log.Printf(err.Error())
