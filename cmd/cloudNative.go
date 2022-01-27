@@ -47,8 +47,10 @@ func init() {
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.ContainerName,"container-name", "c", "", "the name of the Azure storage account container with terraform state file")
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.BlobName, "blob-name", "b", "", "the name of the Azure storage account blob with terraform state file")
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.SasToken,"sassy-token", "k", "", "Azure storage account SAS token for blob download via GET request")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.BucketName,"bucket-name", "m", "", "the name of the AWS/GCP bucket with terraform state file")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.Object,"object", "o", "", "the name of the AWS/GCP object with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.BucketName,"aws-bucket-name", "m", "", "the name of the AWS/GCP bucket with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.BucketName,"gcp-bucket-name", "w", "", "the name of the AWS/GCP bucket with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.Object,"aws-object", "o", "", "the name of the AWS/GCP object with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.ObjectName,"gcp-object", "i", "", "the name of the AWS/GCP object with terraform state file")
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.Region,"region", "g", "", "the name of the AWS S3 region that contains the S3 bucket")
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.AccessKey,"access-key", "y", "", "AWS access key for authenticating with developer credentials")
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.SecretAccessKey,"secret-access-key", "v", "", "AWS secret access key for authenticating with developer credentials")
@@ -76,17 +78,13 @@ func init() {
 			log.Printf(err.Error())
 			os.Exit(1)
 		}
-	ProviderConfigs.Azure.StorageAccountName = cloudNativeCmd.Flags().Lookup("storage-account").Value.String()
-	ProviderConfigs.Azure.StorageAccountName = cloudNativeCmd.Flags().Lookup("container-name").Value.String()
-	ProviderConfigs.Azure.StorageAccountName = cloudNativeCmd.Flags().Lookup("blob-name").Value.String()
-	ProviderConfigs.Azure.StorageAccountName = cloudNativeCmd.Flags().Lookup("sassy-token").Value.String()
 	} else if Provider == "aws" {
-		err := tfCloudCmd.MarkPersistentFlagRequired("bucket-name")
+		err := tfCloudCmd.MarkPersistentFlagRequired("aws-bucket-name")
 		if err != nil {
 			log.Printf(err.Error())
 			os.Exit(1)
 		}
-		err = tfCloudCmd.MarkPersistentFlagRequired("object")
+		err = tfCloudCmd.MarkPersistentFlagRequired("aws-object")
 		if err != nil {
 			log.Printf(err.Error())
 			os.Exit(1)
@@ -111,19 +109,13 @@ func init() {
 			log.Printf(err.Error())
 			os.Exit(1)
 		}
-		ProviderConfigs.Aws.BucketName = cloudNativeCmd.Flags().Lookup("bucket-name").Value.String()
-		ProviderConfigs.Aws.Object = cloudNativeCmd.Flags().Lookup("object").Value.String()
-		ProviderConfigs.Aws.Region = cloudNativeCmd.Flags().Lookup("region").Value.String()
-		ProviderConfigs.Aws.AccessKey = cloudNativeCmd.Flags().Lookup("access-key").Value.String()
-		ProviderConfigs.Aws.SecretAccessKey = cloudNativeCmd.Flags().Lookup("secret-access-key").Value.String()
-		ProviderConfigs.Aws.SessionToken = cloudNativeCmd.Flags().Lookup("session-token").Value.String()
 	} else if Provider == "gcp"{
-		err := tfCloudCmd.MarkPersistentFlagRequired("bucket-name")
+		err := tfCloudCmd.MarkPersistentFlagRequired("gcp-bucket-name")
 		if err != nil {
 			log.Printf(err.Error())
 			os.Exit(1)
 		}
-		err = tfCloudCmd.MarkPersistentFlagRequired("object")
+		err = tfCloudCmd.MarkPersistentFlagRequired("gcp-object")
 		if err != nil {
 			log.Printf(err.Error())
 			os.Exit(1)
@@ -133,9 +125,6 @@ func init() {
 			log.Printf(err.Error())
 			os.Exit(1)
 		}
-		ProviderConfigs.GoogleCloud.BucketName = cloudNativeCmd.Flags().Lookup("bucket-name").Value.String()
-		ProviderConfigs.GoogleCloud.ObjectName = cloudNativeCmd.Flags().Lookup("object").Value.String()
-		ProviderConfigs.GoogleCloud.Oauth2Token = cloudNativeCmd.Flags().Lookup("oauth2-token").Value.String()
 	}
 	// Here you will define your flags and configuration settings.
 
