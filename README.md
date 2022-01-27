@@ -9,7 +9,9 @@
   * Docs generated for Projects via Azure DevOps, Jira, and GitHub 
   * Integration for agnostic pipeline support 
 ## How to install: 
-
+  * Run ```make all``` in your shell 
+    * This will compile the exe and add it to your $PATH 
+  * Test with ```paradocs --help```
 ## How to use ParaDocs:
 
 ## How to contribute:
