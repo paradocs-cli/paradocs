@@ -13,8 +13,14 @@
     * This will compile the exe and add it to your $PATH 
   * Test with ```paradocs --help```
 ## How to use ParaDocs:
-
+### Authentication for state providers: 
+### Terraform documentation:
+### Sample commands:
 ## How to contribute:
-
+### Working with Cobra:
+### Pull requests:
 ## References: 
+### API docs: 
+### Cobra docs:
+### Golang docs: 
 
