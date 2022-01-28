@@ -8,6 +8,8 @@ func TestTerraformCmd(t *testing.T) {
 	if err != nil {
 		t.Fail()
 		t.Logf(err.Error())
+	} else {
+		t.Logf("Test passed for TestTerraformCmd!")
 	}
 }
 
