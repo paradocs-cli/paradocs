@@ -15,8 +15,8 @@
 ## How to use ParaDocs:
 ### Authentication for state providers: 
 #### Google Cloud 
-[Oauth2Token Creation](https://developers.google.com/identity/protocols/oauth2) (Needed for authentication to Cloud Storage API)
-[REST API Docs](https://cloud.google.com/storage/docs/downloading-objects) (You will need to authorize your token as seen below)
+[Oauth2Token Creation](https://developers.google.com/identity/protocols/oauth2) (Needed for authentication to Cloud Storage API)<br>
+[REST API Docs](https://cloud.google.com/storage/docs/downloading-objects) (You will need to authorize your token as seen below)<br>
 ![img.png](assets/gcpapi.png)
 #### AWS
 [Access Developer Credentials](https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/getting-your-credentials.html)
