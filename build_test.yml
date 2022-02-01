@@ -6,7 +6,8 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
-  - stage: Test
+stages:
+  - stage: TestAndBuild
     displayName: Test Paradocs
     jobs:
       - job: Build
@@ -14,7 +15,6 @@ pool:
         pool:
           vmImage: ubuntu-latest
         steps:
-
           - script: |
               go build -v ./...
             displayName: Running build for Paradocs
@@ -24,7 +24,6 @@ pool:
         pool:
           vmImage: ubuntu-latest
         steps:
-
           - script: |
               go test -v ./...
             displayName: Running test for Paradocs
