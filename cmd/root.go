@@ -16,10 +16,10 @@ var (
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "paradocs",
-	Short: "Cloud docs is an automation tool for generating documentation for cloud native technologies",
+	Short: "paradocs is an automation tool for generating documentation for cloud native technologies",
 	Long: `paradocs is a tool for generating documentation for cloud native technologies:
 		--Use cloud docs and it's flags to specify supported doc creation languages
-		--For example: clouddocs terraform, would generate documention for terraform code
+		--For example: paradocs code terraform, would generate documention for terraform code
 		--All docs generated are in Markdown
 		--Additional flags such as 'azdo push' will push documentation to specified repositories
 		`,
