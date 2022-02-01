@@ -4,7 +4,9 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 */
 package main
 
-import "github.com/johhess40/paradocs/cmd"
+import (
+	"dev.azure.com/ignw/Paradocs/_git/Paradocs/cmd"
+)
 
 func main() {
 	cmd.Execute()
