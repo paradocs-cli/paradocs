@@ -1,4 +1,4 @@
-module github.com/johhess40/paradocs
+module dev.azure.com/ignw/Paradocs/_git/Paradocs
 
 go 1.16
 
