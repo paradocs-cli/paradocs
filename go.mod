@@ -1,4 +1,4 @@
-module dev.azure.com/ignw/Paradocs/_git/paradocs
+module gitlab.com/ignw1/internal/hackathon/2022-q1/paradocs
 
 go 1.16
 
