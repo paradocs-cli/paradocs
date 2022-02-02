@@ -5,7 +5,7 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package main
 
 import (
-	"dev.azure.com/ignw/Paradocs/_git/paradocs/cmd"
+	"gitlab.com/ignw1/internal/hackathon/2022-q1/paradocs/cmd"
 )
 
 func main() {
