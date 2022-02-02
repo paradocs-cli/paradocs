@@ -12,13 +12,11 @@ import (
 // codeCmd represents the code command
 var codeCmd = &cobra.Command{
 	Use:   "code",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "subcommand for calling code documentation",
+	Long: `subcommand code is used to direct paradocs to create
+	documentation for code via terraform, helm, etc:
+	--Currently functional for HCL/terraform only 
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Executing doc build for code")
 	},
@@ -41,13 +39,8 @@ func init() {
 func NewCodeCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "code",
-		Short: "A brief description of your command",
-		Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+		Short: "testing for code ",
+		Long: `testing for functionality of code subcommand`,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Printf("Executing doc build for code")
 		},
