@@ -11,6 +11,7 @@
 ## How to install: 
   * Run ```make all``` in your shell 
     * This will compile the exe and add it to your $PATH 
+    * If the ```make``` command fails, install Make by using Chocolatey and running ```choco make install```
   * Test with ```paradocs --help```
 ## How to use ParaDocs:
 ### Authentication for state providers: 
