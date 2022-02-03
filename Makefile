@@ -19,4 +19,4 @@ install:
 	@echo "Install process for paradocs finished...."
 
 # Run all make commands
-all: intro build install
+all: intro install
