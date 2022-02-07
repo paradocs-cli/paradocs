@@ -8,7 +8,7 @@ image: golang:latest
 
 variables:
   # Please edit to your GitLab project
-  REPO_NAME: gitlab.com/ignw/internal/hackathon/2022-q1/Paradocs-11a
+  REPO_NAME: gitlab.com/ignw/internal/hackathon/2022-q1/Paradocs-Cli
 
 # The problem is that to be able to use go get, one needs to put
 # the repository in the $GOPATH. So for example if your gitlab domain
