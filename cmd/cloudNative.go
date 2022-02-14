@@ -35,7 +35,7 @@ var cloudNativeCmd = &cobra.Command{
 		}
 		generatedocs.WriteMarkdownCloudState(cloud)
 
-		fmt.Printf("state pulled, if now errors were received markdown should be generated at %s\n", os.Getenv("PWD"))
+		fmt.Printf("state pulled, if no errors were received markdown should be generated at %s\n", os.Getenv("PWD"))
 
 	},
 }

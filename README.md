@@ -11,6 +11,7 @@
 ## How to install: 
   * Run ```make all``` in your shell 
     * This will compile the exe and add it to your $PATH 
+    * If the ```make``` command fails, install Make by using Chocolatey and running ```choco make install```
   * Test with ```paradocs --help```
 ## How to use ParaDocs:
 ### Authentication for state providers: 
@@ -41,7 +42,7 @@ Only grab the actual token field for cli use<br>
   * Workspace ID
 ### Terraform documentation:
 ### Sample commands:
-* ```paradocs terraform --working-dir <insert target path here>```
+* ```paradocs code terraform --working-dir <insert target path here>```
   * All docs that are generated will be stored in current working directory
   * Future support being added to specificy what directory to ouput too as well as running against remote code stored in GitHub, Gitlab, etc
 ## How to contribute:
