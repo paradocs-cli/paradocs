@@ -5,9 +5,10 @@ package cmd
 
 import (
 	"fmt"
-	generatedocs "github.com/johhess40/generatedocs"
 	"log"
 	"os"
+
+	generatedocs "github.com/paradocs-cli/generatedocs"
 
 	"github.com/spf13/cobra"
 )
