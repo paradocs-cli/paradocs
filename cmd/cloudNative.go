@@ -6,9 +6,10 @@ package cmd
 
 import (
 	"fmt"
-	generatedocs "github.com/johhess40/generatedocs"
 	"log"
 	"os"
+
+	generatedocs "github.com/paradocs-cli/generatedocs"
 
 	"github.com/spf13/cobra"
 )
@@ -44,18 +45,18 @@ func init() {
 	tfstateCmd.AddCommand(cloudNativeCmd)
 	cloudNativeCmd.PersistentFlags().StringVarP(&Provider, "provider", "p", "", "cloud provider that stores your terraform backend for tfstate")
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.StorageAccountName, "storage-account", "s", "", "the name of the Azure storage account with terraform state file")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.ContainerName,"container-name", "c", "", "the name of the Azure storage account container with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.ContainerName, "container-name", "c", "", "the name of the Azure storage account container with terraform state file")
 	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.BlobName, "blob-name", "b", "", "the name of the Azure storage account blob with terraform state file")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.SasToken,"sassy-token", "k", "", "Azure storage account SAS token for blob download via GET request")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.BucketName,"aws-bucket-name", "m", "", "the name of the AWS/GCP bucket with terraform state file")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.BucketName,"gcp-bucket-name", "w", "", "the name of the AWS/GCP bucket with terraform state file")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.Object,"aws-object", "o", "", "the name of the AWS/GCP object with terraform state file")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.ObjectName,"gcp-object", "i", "", "the name of the AWS/GCP object with terraform state file")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.Region,"region", "g", "", "the name of the AWS S3 region that contains the S3 bucket")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.AccessKey,"access-key", "y", "", "AWS access key for authenticating with developer credentials")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.SecretAccessKey,"secret-access-key", "v", "", "AWS secret access key for authenticating with developer credentials")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.SessionToken,"session-token", "u", "", "AWS session token for authenticating with developer credentials")
-	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.Oauth2Token,"oauth2-token", "q", "", "OAuth 2 token for authentication for getting state stored in GCP")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Azure.SasToken, "sassy-token", "k", "", "Azure storage account SAS token for blob download via GET request")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.BucketName, "aws-bucket-name", "m", "", "the name of the AWS/GCP bucket with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.BucketName, "gcp-bucket-name", "w", "", "the name of the AWS/GCP bucket with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.Object, "aws-object", "o", "", "the name of the AWS/GCP object with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.ObjectName, "gcp-object", "i", "", "the name of the AWS/GCP object with terraform state file")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.Region, "region", "g", "", "the name of the AWS S3 region that contains the S3 bucket")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.AccessKey, "access-key", "y", "", "AWS access key for authenticating with developer credentials")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.SecretAccessKey, "secret-access-key", "v", "", "AWS secret access key for authenticating with developer credentials")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.Aws.SessionToken, "session-token", "u", "", "AWS session token for authenticating with developer credentials")
+	cloudNativeCmd.PersistentFlags().StringVarP(&ProviderConfigs.GoogleCloud.Oauth2Token, "oauth2-token", "q", "", "OAuth 2 token for authentication for getting state stored in GCP")
 
 	if Provider == "azure" {
 		err := tfCloudCmd.MarkPersistentFlagRequired("storage-account")
@@ -109,7 +110,7 @@ func init() {
 			log.Printf(err.Error())
 			os.Exit(1)
 		}
-	} else if Provider == "gcp"{
+	} else if Provider == "gcp" {
 		err := tfCloudCmd.MarkPersistentFlagRequired("gcp-bucket-name")
 		if err != nil {
 			log.Printf(err.Error())
