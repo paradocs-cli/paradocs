@@ -39,7 +39,7 @@ var terraformCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalf(err.Error())
 		}
-		generatedocs.WriteMarkdownTerra(data)
+		generatedocs.WriteMarkdownTerra(data, OutDir)
 	},
 }
 
