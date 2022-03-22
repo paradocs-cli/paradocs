@@ -1,6 +1,5 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2022 John Hession
 */
 package cmd
 
@@ -15,7 +14,7 @@ var codeCmd = &cobra.Command{
 	Short: "subcommand for calling code documentation",
 	Long: `subcommand code is used to direct paradocs to create
 	documentation for code via terraform, helm, etc:
-	--Currently functional for HCL/terraform only 
+	-- Currently functional for HCL/terraform only 
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Printf("Executing doc build for code")
@@ -40,7 +39,7 @@ func NewCodeCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "code",
 		Short: "testing for code ",
-		Long: `testing for functionality of code subcommand`,
+		Long:  `testing for functionality of code subcommand`,
 		Run: func(cmd *cobra.Command, args []string) {
 			fmt.Printf("Executing doc build for code")
 		},
