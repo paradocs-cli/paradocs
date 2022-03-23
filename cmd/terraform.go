@@ -81,7 +81,7 @@ func NewTerraformCmd(w string) *cobra.Command {
 			if err != nil {
 				log.Fatalf(err.Error())
 			}
-			generatedocs.WriteMarkdownTerra(data)
+			generatedocs.WriteMarkdownTerra(data, ".")
 			fmt.Println("terraform docs generated....")
 		},
 	}

@@ -1,5 +1,5 @@
 /*
-Copyright © 2022 John Hession <EMAIL ADDRESS>
+Copyright © 2022 John Hession
 
 */
 package cmd
@@ -52,7 +52,6 @@ func init() {
 		log.Printf(err.Error())
 		os.Exit(1)
 	}
-
 
 	// Here you will define your flags and configuration settings.
 
