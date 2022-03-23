@@ -13,15 +13,15 @@ import (
 // azdevopsCmd represents the azdevops command
 var azdevopsCmd = &cobra.Command{
 	Use:   "azdevops",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "azdevops designates Azure DevOps as the project platform for documentation",
+	Long: `azdevops designates Azure DevOps as the project platform for documentation:
+			-- Generates documentation for project 			
+			-- Generates documentation for project repos  			
+			-- Generates documentation for project pipelines 			
+			-- Generates documentation for project sprints 			
+`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("azdevops called")
+		fmt.Println("azdevops called...")
 	},
 }
 

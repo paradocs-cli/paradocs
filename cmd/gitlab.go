@@ -18,9 +18,12 @@ var (
 // gitlabCmd represents the gitlabdocs command
 var gitlabCmd = &cobra.Command{
 	Use:   "gitlab",
-	Short: "this command generates docs for gitlab",
-	Long: `This sub command generates your documentation for gitlab:
-			--Currently only terraform is supported
+	Short: "gitlab designates GitLab as the project platform for documentation",
+	Long: `gitlab designates GitLab as the project platform for documentation:
+			-- Generates documentation for project 			
+			-- Generates documentation for project repos  			
+			-- Generates documentation for project pipelines 			
+			-- Generates documentation for project sprints 			
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("gitlab docs being generated, standby....")
