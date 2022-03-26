@@ -1,32 +1,59 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2022 John Hession
 */
 package cmd
 
 import (
 	"fmt"
-
+	"github.com/paradocs-cli/docbuilder"
 	"github.com/spf13/cobra"
+	"log"
+	"os"
 )
 
-// gitlabCmd represents the gitlab command
+var (
+	builder docbuilder.GitlabData
+)
+
+// gitlabCmd represents the gitlabdocs command
 var gitlabCmd = &cobra.Command{
 	Use:   "gitlab",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "gitlab designates GitLab as the project platform for documentation",
+	Long: `gitlab designates GitLab as the project platform for documentation:
+			-- Generates documentation for project 			
+			-- Generates documentation for project repos  			
+			-- Generates documentation for project pipelines 			
+			-- Generates documentation for project sprints 			
+`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("gitlab called")
+		fmt.Println("gitlab docs being generated, standby....")
+		err := docbuilder.BuildGitLabDocs(builder)
+		if err != nil {
+			log.Fatal(err)
+		}
 	},
 }
 
 func init() {
-	pushCmd.AddCommand(gitlabCmd)
+	platformCmd.AddCommand(gitlabCmd)
+	gitlabCmd.PersistentFlags().StringSliceVarP(&builder.ProjectIds, "project-ids", "p", []string{}, "comma separated list of project ids for gitlab documentation")
+	err := gitlabCmd.MarkPersistentFlagRequired("project-ids")
+	if err != nil {
+		log.Printf(err.Error())
+		os.Exit(1)
+	}
+	gitlabCmd.PersistentFlags().StringVarP(&builder.UserName, "user-name", "u", "", "username for authentication with gitlab")
+	err = gitlabCmd.MarkPersistentFlagRequired("user-name")
+	if err != nil {
+		log.Printf(err.Error())
+		os.Exit(1)
+	}
+	gitlabCmd.PersistentFlags().StringVarP(&builder.Token, "token", "t", "", "your PAT for authentication with gitlab")
+	err = gitlabCmd.MarkPersistentFlagRequired("token")
+	if err != nil {
+		log.Printf(err.Error())
+		os.Exit(1)
+	}
 
 	// Here you will define your flags and configuration settings.
 

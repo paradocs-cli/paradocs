@@ -13,6 +13,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	OutDir string
+)
+
 // terraformCmd represents the terraform command
 var terraformCmd = &cobra.Command{
 	Use:   "terraform",
@@ -35,7 +39,7 @@ var terraformCmd = &cobra.Command{
 		if err != nil {
 			log.Fatalf(err.Error())
 		}
-		generatedocs.WriteMarkdownTerra(data)
+		generatedocs.WriteMarkdownTerra(data, OutDir)
 	},
 }
 
@@ -52,6 +56,7 @@ func init() {
 	// is called directly, e.g.:
 	// terraformCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	terraformCmd.PersistentFlags().StringVarP(&WorkingDir, "working-dir", "w", ".", "Working assets for running doc generation, defaults to '.'")
+	terraformCmd.PersistentFlags().StringVarP(&OutDir, "out-dir", "o", ".", "Directory that markdown documentation should be exported to...")
 }
 
 func NewTerraformCmd(w string) *cobra.Command {
@@ -76,7 +81,7 @@ func NewTerraformCmd(w string) *cobra.Command {
 			if err != nil {
 				log.Fatalf(err.Error())
 			}
-			generatedocs.WriteMarkdownTerra(data)
+			generatedocs.WriteMarkdownTerra(data, ".")
 			fmt.Println("terraform docs generated....")
 		},
 	}
