@@ -1,5 +1,5 @@
 /*
-Copyright © 2022 John Hession johhess@cdw.com
+Copyright © 2022 John Hession
 
 */
 package cmd
