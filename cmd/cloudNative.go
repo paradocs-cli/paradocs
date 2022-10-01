@@ -9,7 +9,7 @@ import (
 	"log"
 	"os"
 
-	generatedocs "github.com/paradocs-cli/generatedocs"
+	generatedocs "github.com/paradocs-cli/paradocs/generatedocs"
 
 	"github.com/spf13/cobra"
 )
