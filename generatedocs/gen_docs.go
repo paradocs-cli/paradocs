@@ -164,48 +164,21 @@ func (s *Stats) WriteMarkdownTerraResources(dir string) error {
 
 //WriteMarkdownCloudState generates a README which recursively documents all terraform state resources from the specified backend
 //WriteMarkdownCloudState does template execution to write the file
-func WriteMarkdownCloudState(st CloudState) os.File {
+func (s *CloudState) WriteMarkdownCloudState(dir string) error {
 
 	tmpls := template.New("md")
 	template.Must(tmpls.Parse(TerraStateDocCloud))
 
-	f, err := os.Create(fmt.Sprintf("STATE.%s", tmpls.Name()))
+	f, err := os.Create(fmt.Sprintf("%s/STATE.%s", dir, tmpls.Name()))
 	if err != nil {
-		if err != nil {
-			fmt.Println("Unable to create file for Markdown")
-			os.Exit(1)
-		}
-	}
-
-	err = tmpls.Execute(f, st)
-	if err != nil {
-		fmt.Println(err.Error())
+		return err
 		os.Exit(1)
 	}
 
-	return *f
-}
-
-//WriteMarkdownTfcState generates a README which recursively documents all terraform state resources from the specified backend
-//WriteMarkdownTfcState does template execution to write the file
-func WriteMarkdownTfcState(st TfcState) os.File {
-
-	tmpls := template.New("md")
-	template.Must(tmpls.Parse(TerraStateDocCloud))
-
-	f, err := os.Create(fmt.Sprintf("STATE.%s", tmpls.Name()))
+	err = tmpls.Execute(f, s)
 	if err != nil {
-		if err != nil {
-			fmt.Println("Unable to create file for Markdown")
-			os.Exit(1)
-		}
+		return err
 	}
 
-	err = tmpls.Execute(f, st)
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-
-	return *f
+	return nil
 }

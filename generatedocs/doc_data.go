@@ -21,7 +21,7 @@ func GetDirs(s string) ([]string, error) {
 		return nil
 	})
 	if err != nil {
-		return mods, fmt.Errorf(err.Error())
+		return mods, err
 	}
 	for _, v := range dirs {
 		check := tfconfig.IsModuleDir(v)
@@ -37,15 +37,15 @@ func GetData(s string) (Stats, error) {
 	var Final Stats
 	get, err := GetDirs(s)
 	if err != nil {
-		return Final, fmt.Errorf(err.Error())
+		return Stats{}, err
 	}
 	for _, v := range get {
-		config, err := tfconfig.LoadModule(v)
-		if err != nil {
-			return Final, fmt.Errorf(err.Error())
+		config, errMod := tfconfig.LoadModule(v)
+		if errMod != nil {
+			return Stats{}, err
 		}
 		for _, z := range config.Variables {
-			someVars := Var{
+			Final.Vars = append(Final.Vars, Var{
 				VarName:                z.Name,
 				VarType:                z.Type,
 				VarDefault:             z.Default,
@@ -54,13 +54,11 @@ func GetData(s string) (Stats, error) {
 				VarSensitive:           z.Sensitive,
 				SourcePositionFileName: fmt.Sprintf("./%s", z.Pos.Filename),
 				SourcePositionLine:     strconv.Itoa(z.Pos.Line),
-			}
-
-			Final.Vars = append(Final.Vars, someVars)
+			})
 		}
 
 		for _, x := range config.ManagedResources {
-			someResources := Resource{
+			Final.Resources = append(Final.Resources, Resource{
 				Mode:                   x.Mode.String(),
 				Type:                   x.Type,
 				Name:                   x.Name,
@@ -69,34 +67,31 @@ func GetData(s string) (Stats, error) {
 				SourcePositionFileName: fmt.Sprintf("./%s", x.Pos.Filename),
 				SourcePositionLine:     strconv.Itoa(x.Pos.Line),
 				Link:                   fmt.Sprintf("%s/resources/%s", LinkBuilder(x.Provider.Name), x.Type),
-			}
-			Final.Resources = append(Final.Resources, someResources)
+			})
 		}
 
 		for _, y := range config.ModuleCalls {
-			someModules := Module{
+			Final.Modules = append(Final.Modules, Module{
 				Name:                   y.Name,
 				ModSource:              y.Source,
 				Version:                y.Version,
 				SourcePositionFileName: y.Pos.Filename,
 				SourcePositionLine:     strconv.Itoa(y.Pos.Line),
-			}
-			Final.Modules = append(Final.Modules, someModules)
+			})
 		}
 
 		for _, w := range config.Outputs {
-			someOutputs := Output{
+			Final.Outputs = append(Final.Outputs, Output{
 				Name:                   w.Name,
 				Description:            w.Description,
 				Sensitive:              w.Sensitive,
 				SourcePositionFileName: w.Pos.Filename,
 				SourcePositionLine:     strconv.Itoa(w.Pos.Line),
-			}
-			Final.Outputs = append(Final.Outputs, someOutputs)
+			})
 		}
 
 		for _, u := range config.DataResources {
-			someData := Data{
+			Final.Datas = append(Final.Datas, Data{
 				DataType:               u.Type,
 				Name:                   u.Name,
 				ProviderName:           u.Provider.Name,
@@ -104,17 +99,15 @@ func GetData(s string) (Stats, error) {
 				SourcePositionFileName: u.Pos.Filename,
 				SourcePositionLine:     strconv.Itoa(u.Pos.Line),
 				Link:                   fmt.Sprintf("%s/data-sources/%s", LinkBuilder(u.Provider.Name), u.Type),
-			}
-			Final.Datas = append(Final.Datas, someData)
+			})
 		}
 
 		for _, u := range config.ProviderConfigs {
-			someProvider := Provider{
+			Final.Providers = append(Final.Providers, Provider{
 				Name:  u.Name,
 				Alias: u.Alias,
 				Link:  LinkBuilder(u.Name),
-			}
-			Final.Providers = append(Final.Providers, someProvider)
+			})
 		}
 	}
 	return Final, nil

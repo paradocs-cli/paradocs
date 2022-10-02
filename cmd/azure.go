@@ -25,7 +25,11 @@ to quickly create a Cobra application.`,
 			log.Printf(err.Error())
 			os.Exit(1)
 		}
-		generatedocs.WriteMarkdownCloudState(cloud)
+		err = cloud.WriteMarkdownCloudState(OutDir)
+		if err != nil {
+			log.Printf(err.Error())
+			os.Exit(1)
+		}
 
 		log.Printf("state pulled, if no errors were received markdown should be generated at %s\n", os.Getenv("PWD"))
 	},
@@ -57,4 +61,5 @@ func init() {
 		log.Printf(err.Error())
 		os.Exit(1)
 	}
+	azureCmd.PersistentFlags().StringVarP(&OutDir, "out-dir", "o", ".", "Directory that markdown documentation should be exported to...")
 }
