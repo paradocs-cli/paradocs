@@ -1,11 +1,6 @@
-/*
-Copyright © 2022 John Hession johhess@cdw.com
-
-*/
 package cmd
 
 import (
-	"fmt"
 	"log"
 
 	generatedocs "github.com/paradocs-cli/paradocs/generatedocs"
@@ -34,12 +29,15 @@ var terraformCmd = &cobra.Command{
 		--Automated code snippets for examples
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("generating Terraform docs...")
+		log.Printf("generating Terraform docs...")
 		data, err := generatedocs.GetData(WorkingDir)
 		if err != nil {
 			log.Fatalf(err.Error())
 		}
-		generatedocs.WriteMarkdownTerra(data, OutDir)
+		err = generatedocs.WriteMarkdownTerra(data, OutDir)
+		if err != nil {
+			log.Fatalf(err.Error())
+		}
 	},
 }
 
@@ -76,13 +74,16 @@ func NewTerraformCmd(w string) *cobra.Command {
 		--Automated code snippets for examples
 `,
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("generating Terraform docs...")
+			log.Printf("generating Terraform docs...")
 			data, err := generatedocs.GetData(w)
 			if err != nil {
 				log.Fatalf(err.Error())
 			}
-			generatedocs.WriteMarkdownTerra(data, ".")
-			fmt.Println("terraform docs generated....")
+			err = generatedocs.WriteMarkdownTerra(data, ".")
+			if err != nil {
+				log.Fatalf(err.Error())
+			}
+			log.Printf("terraform docs generated....")
 		},
 	}
 }

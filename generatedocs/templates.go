@@ -78,11 +78,58 @@ const TerraStateDocCloud = `
 {{end}}
 </table>
 `
+const TerraformProviders = `
+<h1>Terraform Providers:</h1>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Alias</th>
+</tr>
+</thead>
+{{range .}}
+<tbody>
+<tr>
+<td><a href="{{.Link}}">{{.Name}}</a></td>
+<td>{{.Alias}}</td>
+</tr>
+</tbody>
+{{end}}
+</table>
+`
 
-//TerraDocGeneric is a template for generating terraform documentation
-const TerraDocGeneric = `
-<h1>Terraform Documentation</h1> 
-<h2>Variables:</h2>
+const TerraformResources = `
+<h1>Terraform Resources:</h1>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Type</th>
+<th>Name</th>
+<th>Provider Name</th>
+<th>Provider Alias</th>
+<th>File Name</th>
+<th>Line Number</th>
+</tr>
+</thead>
+{{range .}}
+<tbody>
+<tr>
+<td>{{.Mode}}</td>
+<td><a href="{{.Link}}">{{.Type}}</td>
+<td>{{.Name}}</td>
+<td>{{.ProviderName}}</td>
+<td>{{.ProviderAlias}}</td>
+<td>{{.SourcePositionFileName}}</td>
+<td>{{.SourcePositionLine}}</td>
+</tr>
+</tbody>
+{{end}}
+</table>
+`
+
+const TerraformVariables = `
+<h1>Terraform Variables</h1> 
 <table>
 <thead>
 <tr>
@@ -96,7 +143,7 @@ const TerraDocGeneric = `
 <th>Line Number</th>
 </tr>
 </thead>
-{{range .Vars}}
+{{range .}}
 <tbody>
 <tr>
 <td>{{.VarName}}</td>
@@ -111,36 +158,10 @@ const TerraDocGeneric = `
 </tbody>
 {{end}}
 </table>
+`
 
-<h2>Resources:</h2>
-<table>
-<thead>
-<tr>
-<th>Mode</th>
-<th>Type</th>
-<th>Name</th>
-<th>Provider Name</th>
-<th>Provider Alias</th>
-<th>File Name</th>
-<th>Line Number</th>
-</tr>
-</thead>
-{{range .Resources}}
-<tbody>
-<tr>
-<td>{{.Mode}}</td>
-<td><a href="{{.Link}}">{{.Type}}</td>
-<td>{{.Name}}</td>
-<td>{{.ProviderName}}</td>
-<td>{{.ProviderAlias}}</td>
-<td>{{.SourcePositionFileName}}</td>
-<td>{{.SourcePositionLine}}</td>
-</tr>
-</tbody>
-{{end}}
-</table>
-
-<h2>Modules:</h2>
+const TerraformModules = `
+<h1>Terraform Modules:</h1>
 <table>
 <thead>
 <tr>
@@ -151,7 +172,7 @@ const TerraDocGeneric = `
 <th>Line Number</th>
 </tr>
 </thead>
-{{range .Modules}}
+{{range .}}
 <tbody>
 <tr>
 <td>{{.Name}}</td>
@@ -163,8 +184,10 @@ const TerraDocGeneric = `
 </tbody>
 {{end}}
 </table>
+`
 
-<h2>Data Resources:</h2>
+const TerraformDataSources = `
+<h1>Data Resources:</h1>
 <table>
 <thead>
 <tr>
@@ -176,7 +199,7 @@ const TerraDocGeneric = `
 <th>Line Number</th>
 </tr>
 </thead>
-{{range .Datas}}
+{{range .}}
 <tbody>
 <tr>
 <td>{{.Name}}</td>
@@ -189,26 +212,10 @@ const TerraDocGeneric = `
 </tbody>
 {{end}}
 </table>
+`
 
-<h2>Providers:</h2>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Alias</th>
-</tr>
-</thead>
-{{range .Providers}}
-<tbody>
-<tr>
-<td><a href="{{.Link}}">{{.Name}}</a></td>
-<td>{{.Alias}}</td>
-</tr>
-</tbody>
-{{end}}
-</table>
-
-<h2>Outputs:</h2>
+const TerraformOutputs = `
+<h2>Terraform Outputs:</h2>
 <table>
 <thead>
 <tr>
@@ -219,7 +226,7 @@ const TerraDocGeneric = `
 <th>Line Number</th>
 </tr>
 </thead>
-{{range .Outputs}}
+{{range .}}
 <tbody>
 <tr>
 <td>{{.Name}}</td>
@@ -227,50 +234,6 @@ const TerraDocGeneric = `
 <td>{{.Sensitive}}</td>
 <td>{{.SourcePositionFileName}}</td>
 <td>{{.SourcePositionLine}}</td>
-</tr>
-</tbody>
-{{end}}
-</table>
-`
-
-//RepoDocGeneric is a template for generating repository documentation
-const RepoDocGeneric = `
-<h1>Repo Documentation</h1> 
-<h2>Directories:</h2>
-<table>
-<thead>
-<tr>
-<th>Directory Name</th>
-<th>Terraform Directory</th>
-<th>Modification Time</th>
-</tr>
-</thead>
-{{range .Directories}}
-<tbody>
-<tr>
-<td>{{.Name}}</td>
-<td>{{.IsTerraDir}}</td>
-<td>{{.ModificationTime}}</td>
-</tr>
-</tbody>
-{{end}}
-</table>
-
-<h2>Files:</h2>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Terraform File</th>
-<th>Modification Time</th>
-</tr>
-</thead>
-{{range .Files}}
-<tbody>
-<tr>
-<td>{{.Name}}</td>
-<td>{{.IsTfFile}}</td>
-<td>{{.ModificationTime}}</td>
 </tr>
 </tbody>
 {{end}}

@@ -3,11 +3,9 @@ package generate_docs
 import (
 	"fmt"
 	"github.com/hashicorp/terraform-config-inspect/tfconfig"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strconv"
-	"strings"
 )
 
 //GetDirs takes a string argument and returns a slice of string of directories that containt terraform files
@@ -46,14 +44,7 @@ func GetData(s string) (Stats, error) {
 		if err != nil {
 			return Final, fmt.Errorf(err.Error())
 		}
-		newVars := config.Variables
-		newResources := config.ManagedResources
-		newModules := config.ModuleCalls
-		newOutputs := config.Outputs
-		newData := config.DataResources
-		newProviders := config.ProviderConfigs
-
-		for _, z := range newVars {
+		for _, z := range config.Variables {
 			someVars := Var{
 				VarName:                z.Name,
 				VarType:                z.Type,
@@ -68,7 +59,7 @@ func GetData(s string) (Stats, error) {
 			Final.Vars = append(Final.Vars, someVars)
 		}
 
-		for _, x := range newResources {
+		for _, x := range config.ManagedResources {
 			someResources := Resource{
 				Mode:                   x.Mode.String(),
 				Type:                   x.Type,
@@ -77,12 +68,12 @@ func GetData(s string) (Stats, error) {
 				ProviderAlias:          x.Provider.Alias,
 				SourcePositionFileName: fmt.Sprintf("./%s", x.Pos.Filename),
 				SourcePositionLine:     strconv.Itoa(x.Pos.Line),
-				Link: fmt.Sprintf("https://registry.terraform.io/providers/hashicorp/%s/latest/docs/resources/%s", x.Provider.Name, strings.TrimPrefix(x.Type, fmt.Sprintf("%s_", x.Provider.Name))),
+				Link:                   fmt.Sprintf("%s/resources/%s", LinkBuilder(x.Provider.Name), x.Type),
 			}
 			Final.Resources = append(Final.Resources, someResources)
 		}
 
-		for _, y := range newModules {
+		for _, y := range config.ModuleCalls {
 			someModules := Module{
 				Name:                   y.Name,
 				ModSource:              y.Source,
@@ -93,7 +84,7 @@ func GetData(s string) (Stats, error) {
 			Final.Modules = append(Final.Modules, someModules)
 		}
 
-		for _, w := range newOutputs {
+		for _, w := range config.Outputs {
 			someOutputs := Output{
 				Name:                   w.Name,
 				Description:            w.Description,
@@ -104,7 +95,7 @@ func GetData(s string) (Stats, error) {
 			Final.Outputs = append(Final.Outputs, someOutputs)
 		}
 
-		for _, u := range newData {
+		for _, u := range config.DataResources {
 			someData := Data{
 				DataType:               u.Type,
 				Name:                   u.Name,
@@ -112,84 +103,19 @@ func GetData(s string) (Stats, error) {
 				ProviderAlias:          u.Provider.Alias,
 				SourcePositionFileName: u.Pos.Filename,
 				SourcePositionLine:     strconv.Itoa(u.Pos.Line),
-				Link: DataSourceLinks(u),
+				Link:                   fmt.Sprintf("%s/data-sources/%s", LinkBuilder(u.Provider.Name), u.Type),
 			}
 			Final.Datas = append(Final.Datas, someData)
 		}
 
-		for _, u := range newProviders {
+		for _, u := range config.ProviderConfigs {
 			someProvider := Provider{
 				Name:  u.Name,
 				Alias: u.Alias,
-				Link: fmt.Sprintf("https://registry.terraform.io/providers/hashicorp/%s/latest/docs", u.Name),
+				Link:  LinkBuilder(u.Name),
 			}
 			Final.Providers = append(Final.Providers, someProvider)
 		}
 	}
 	return Final, nil
 }
-
-func DataSourceLinks(r *tfconfig.Resource) string{
-	if r.Type == "external" {
-		return fmt.Sprintf("https://registry.terraform.io/providers/hashicorp/%s/latest/docs/data-sources/data_source", r.Provider.Name)
-	}
-	return fmt.Sprintf("https://registry.terraform.io/providers/hashicorp/%s/latest/docs/data-sources/%s", r.Provider.Name, strings.TrimPrefix(r.Type, fmt.Sprintf("%s_", r.Provider.Name)))
-}
-
-//GetDirData iterates through directories and returns data about each directory
-func GetDirData(s string) (RepoInfo, error){
-	var dirs RepoInfo
-	get, err := GetDirs(s)
-	if err != nil {
-		return dirs, fmt.Errorf(err.Error())
-	}
-	for _, v := range get {
-		read, err := ioutil.ReadDir(v)
-		if err != nil {
-			return dirs, fmt.Errorf(err.Error())
-		}
-		for _, z := range read {
-			var theDir Dirs
-				theDir.Name = z.Name()
-				theDir.ModificationTime = z.ModTime()
-				if tfconfig.IsModuleDir(z.Name()) {
-					theDir.IsTerraDir = true
-				} else {
-					theDir.IsTerraDir = false
-				}
-				dirs.Directories = append(dirs.Directories, theDir)
-		}
-	}
-	return dirs, nil
-}
-
-//GetFileInfo iterates through files and returns data about each file
-func GetFileInfo(s string) (RepoInfo, error) {
-	var files RepoInfo
-	get, err := GetDirs(s)
-	if err != nil {
-		return files, fmt.Errorf(err.Error())
-	}
-	for _, v := range get {
-		grep, err := ioutil.ReadDir(v)
-		if err != nil {
-			return files, fmt.Errorf(err.Error())
-		}
-		
-		for _, x := range grep {
-			if !x.IsDir() {
-				var file File
-				file.Name = x.Name()
-				file.ModificationTime = x.ModTime()
-				if strings.Contains(x.Name(), ".tf") {
-					file.IsTfFile = true
-				} else {
-					file.IsTfFile = false
-				}
-				files.Files = append(files.Files, file)
-			}
-		}
-	}
-	return files, nil 
-}
-
