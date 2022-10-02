@@ -11,13 +11,13 @@ import (
 // tfcCmd represents the tfc command
 var tfcCmd = &cobra.Command{
 	Use:   "tfc",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "tfc calls for terraform cloud as the backend for state documentation",
+	Long: `tfc calls for terraform cloud as the backend for state documentation:
+		--> Documents state of resources
+		--> Documents workspaces as well
+		--> Usage: paradocs tfstate backend tfc --api-token <token> --workspace-id <workspace id> 
+		--> Usage Short: paradocs tfstate backend tfc -t <token> -w <workspace id> 
+		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("tfc called")
 		cloud, err := generatedocs.WhichCloudState("tfc", ProviderConfigs)

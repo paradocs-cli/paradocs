@@ -11,7 +11,6 @@ var codeCmd = &cobra.Command{
 	Short: "subcommand for calling code documentation",
 	Long: `subcommand code is used to direct paradocs to create
 	documentation for code via terraform, helm, etc:
-	-- Currently functional for HCL/terraform only 
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("Executing doc build for code")

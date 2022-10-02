@@ -11,13 +11,13 @@ import (
 // gcpCmd represents the gcp command
 var gcpCmd = &cobra.Command{
 	Use:   "gcp",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Documents state for backend in google cloud:",
+	Long: `Documents state for backend in google cloud:
+		--> Documents state of resources
+		--> Usage: paradocs tfstate backend gcp --gcp-bucket-name <bucket name> --gcp-object-name <object name> --oauth2-token <token>
+		--> Usage Short: paradocs tfstate backend gcp -b <bucket name> -o <object name> -t <token>
+		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli
+`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("gcp called")
 		cloud, err := generatedocs.WhichCloudState("gcp", ProviderConfigs)

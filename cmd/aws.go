@@ -11,13 +11,11 @@ import (
 // awsCmd represents the aws command
 var awsCmd = &cobra.Command{
 	Use:   "aws",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Documents state for the aws s3 backend",
+	Long: `Documents state for the aws s3 backend:
+		--> Usage: paradocs tfstate backend aws --aws-bucket-name <bucket> --aws-object <object> --region <region> --access-key <key> --secret-access-key <key> --session-token <token>
+		--> Usage Short: paradocs tfstate backend aws -b <bucket> -o <object> -r <region> -a <key> -k <key> -t <token>
+		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("aws called")
 		log.Printf("cloud native backend designated, executing doc generation...")

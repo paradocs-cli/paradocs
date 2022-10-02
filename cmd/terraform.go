@@ -18,15 +18,12 @@ var terraformCmd = &cobra.Command{
 	Short: "generates documentation for your Terraform configs",
 	Long: `sub command terraform specifies that the documentation you 
 	want generated is for terraform/hcl files:
-	--Documents variables
-	--Documents resources
-	--Documents data resources
-	--Documents providers
-	--Documents outputs
-	--Upcoming:
-		--Added support for required providers 
-		--Docs generated based on comments, similar to go.pkg.dev
-		--Automated code snippets for examples
+		--> Documents Variables
+		--> Documents Resources
+		--> Documents Modules
+		--> Documents Outputs
+		--> Documents Providers
+		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("generating Terraform docs...")

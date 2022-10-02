@@ -11,13 +11,12 @@ import (
 // azureCmd represents the azure command
 var azureCmd = &cobra.Command{
 	Use:   "azure",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Documents state for the azure storage account backend:",
+	Long: `Documents state for the azure storage account backend:		
+		--> Documents state of resources
+		--> Usage: paradocs tfstate backend azure --storage-account <storage account> --container-name <container name> --blob-name <blob name> --sassy-token <token> 
+		--> Usage Short: paradocs tfstate backend azure -s <storage account> -c <container name> -b <blob name> -t <token> 
+		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli`,
 	Run: func(cmd *cobra.Command, args []string) {
 		log.Printf("azure called")
 		cloud, err := generatedocs.WhichCloudState("azure", ProviderConfigs)
