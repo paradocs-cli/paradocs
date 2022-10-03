@@ -49,6 +49,6 @@ func init() {
 		log.Printf(err.Error())
 		os.Exit(1)
 	}
-	tfcCmd.PersistentFlags().StringVarP(&OutDir, "out-dir", "o", ".", "Directory that markdown documentation should be exported to...")
-	tfcCmd.PersistentFlags().BoolP("generate-workspace", "g", false, "optional flag to generate documentation for the terraform cloud workspace as well")
+	tfcCmd.PersistentFlags().StringVar(&OutDir, "out-dir", ".", "Directory that markdown documentation should be exported to...")
+	tfcCmd.PersistentFlags().Bool("generate-workspace", false, "optional flag to generate documentation for the terraform cloud workspace as well")
 }

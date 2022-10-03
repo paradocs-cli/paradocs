@@ -60,5 +60,5 @@ func init() {
 		log.Printf(err.Error())
 		os.Exit(1)
 	}
-	azureCmd.PersistentFlags().StringVarP(&OutDir, "out-dir", "o", ".", "Directory that markdown documentation should be exported to...")
+	azureCmd.PersistentFlags().StringVar(&OutDir, "out-dir", ".", "Directory that markdown documentation should be exported to...")
 }
