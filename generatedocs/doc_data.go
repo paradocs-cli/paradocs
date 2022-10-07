@@ -66,7 +66,7 @@ func GetData(s string) (Stats, error) {
 				ProviderAlias:          x.Provider.Alias,
 				SourcePositionFileName: fmt.Sprintf("./%s", x.Pos.Filename),
 				SourcePositionLine:     strconv.Itoa(x.Pos.Line),
-				Link:                   fmt.Sprintf("%s/resources/%s", LinkBuilder(x.Provider.Name), x.Type),
+				Link:                   ResourceLinkBuilder(x.Provider.Name, x.Type),
 			})
 		}
 
@@ -98,7 +98,7 @@ func GetData(s string) (Stats, error) {
 				ProviderAlias:          u.Provider.Alias,
 				SourcePositionFileName: u.Pos.Filename,
 				SourcePositionLine:     strconv.Itoa(u.Pos.Line),
-				Link:                   fmt.Sprintf("%s/data-sources/%s", LinkBuilder(u.Provider.Name), u.Type),
+				Link:                   DataResourceLinkBuilder(u.Provider.Name, u.Type),
 			})
 		}
 
@@ -106,7 +106,7 @@ func GetData(s string) (Stats, error) {
 			Final.Providers = append(Final.Providers, Provider{
 				Name:  u.Name,
 				Alias: u.Alias,
-				Link:  LinkBuilder(u.Name),
+				Link:  ProviderLinkBuilder(u.Name),
 			})
 		}
 	}

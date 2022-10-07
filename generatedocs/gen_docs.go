@@ -4,52 +4,30 @@ import (
 	"fmt"
 	"html/template"
 	"os"
-	"reflect"
 )
 
 //WriteMarkdownTerra generates a README which recursively documents all terraform code
 //WriteMarkdownTerra does template execution to write the file
 func WriteMarkdownTerra(w Stats, dir string) error {
-
-	for i := 0; i < reflect.ValueOf(w).Type().NumField(); i++ {
-		switch reflect.ValueOf(w).Type().Field(i).Name {
-		case "Vars":
-			err := w.WriteMarkdownTerraVars(dir)
-			if err != nil {
-				return err
-			}
-			return nil
-		case "Resources":
-			err := w.WriteMarkdownTerraResources(dir)
-			if err != nil {
-				return err
-			}
-			return nil
-		case "Modules":
-			err := w.WriteMarkdownTerraModules(dir)
-			if err != nil {
-				return err
-			}
-			return nil
-		case "Outputs":
-			err := w.WriteMarkdownTerraOutputs(dir)
-			if err != nil {
-				return err
-			}
-			return nil
-		case "Datas":
-			err := w.WriteMarkdownTerraData(dir)
-			if err != nil {
-				return err
-			}
-			return nil
-		case "Providers":
-			err := w.WriteMarkdownTerraProviders(dir)
-			if err != nil {
-				return err
-			}
-			return nil
-		}
+	err := w.WriteMarkdownTerraProviders(dir)
+	if err != nil {
+		return err
+	}
+	err = w.WriteMarkdownTerraResources(dir)
+	if err != nil {
+		return err
+	}
+	err = w.WriteMarkdownTerraOutputs(dir)
+	if err != nil {
+		return err
+	}
+	err = w.WriteMarkdownTerraData(dir)
+	if err != nil {
+		return err
+	}
+	err = w.WriteMarkdownTerraModules(dir)
+	if err != nil {
+		return err
 	}
 	return nil
 }
