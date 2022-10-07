@@ -1,6 +1,6 @@
 /*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
+Copyright © 2022 John J. Hession: https://github.com/johhess40
+paradocs-cli: https://github.com/paradocs-cli
 */
 package main
 

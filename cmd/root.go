@@ -1,6 +1,3 @@
-/*
-Copyright © 2022 John Hession  johhess@cdw.com
-*/
 package cmd
 
 import (
@@ -18,10 +15,10 @@ var rootCmd = &cobra.Command{
 	Use:   "paradocs",
 	Short: "paradocs is an automation tool for generating documentation for cloud native technologies",
 	Long: `paradocs is a tool for generating documentation for cloud native technologies:
-		--Use cloud docs and it's flags to specify supported doc creation languages
-		--For example: paradocs code terraform, would generate documention for terraform code
-		--All docs generated are in Markdown
-		--Additional flags such as 'azdo push' will push documentation to specified repositories
+		--> Currently only supports documentation generated in Markdown format
+		--> Supports documentation for Terraform code
+		--> Supports documentation for Terraform State
+		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli
 		`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
@@ -37,15 +34,4 @@ func Execute() {
 	}
 }
 
-func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.clouddocs.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-}
-
-
+func init() {}
