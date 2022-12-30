@@ -27,13 +27,23 @@ var terraformCmd = &cobra.Command{
 		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Printf(color.GreenString("[INFO] generating Terraform docs for output in directory: %s", OutDir))
+		if OutDir == "." {
+			log.Printf(color.GreenString("[INFO] 🧙‍generating Terraform docs for output in directory: root🧙‍"))
+		} else {
+			log.Printf(color.GreenString("[INFO] 🧙‍generating Terraform docs for output in directory: %s🧙‍", OutDir))
+		}
+
 		data, err := generatedocs.GetData(WorkingDir)
 		if err != nil {
 			log.Fatalf(err.Error())
 		}
 
-		log.Printf(color.GreenString("[INFO] writing docs to directory: %s", OutDir))
+		if OutDir == "." {
+			log.Printf(color.GreenString("[INFO] 🧙‍writing docs to directory: root🧙‍"))
+		} else {
+			log.Printf(color.GreenString("[INFO] 🧙‍writing docs to directory: %s🧙‍", OutDir))
+		}
+
 		err = generatedocs.WriteMarkdownTerra(data, OutDir)
 		if err != nil {
 			log.Fatalf(err.Error())
