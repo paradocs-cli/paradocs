@@ -18,30 +18,14 @@ func GetDirs(s string) ([]string, error) {
 		log.Printf(color.HiMagentaString("[INFO] reading directory info for: %s", s))
 	}
 
-	var mods []string
-	var dirs []string
-	err := filepath.Walk(s, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
+	directories, err := walkDirectories(s)
 
-		dirs = append(dirs, path)
-		return nil
-	})
+	terraformDirectories, err := checkTerraformDirectories(directories)
 	if err != nil {
-		return mods, err
+		return nil, err
 	}
-	for _, v := range dirs {
-		check := tfconfig.IsModuleDir(v)
-		if check {
-			mods = append(mods, v)
-			log.Printf(color.HiMagentaString("[INFO] 😎found config files for directory: %s😎", v))
-		}
-	}
-	if len(mods) == 0 {
-		log.Fatalf(color.HiRedString("[ERROR] 🚨found no configuration files for specified directory!!!!🚨"))
-	}
-	return mods, nil
+
+	return terraformDirectories, nil
 }
 
 //GetData takes a slice of sting and creates JSON objects from data retrieved such as variables, resources, modules, etc
@@ -63,39 +47,17 @@ func GetData(s string) (Stats, error) {
 		log.Printf(color.HiMagentaString("[INFO] checking for resources in directory: %s", v))
 		Final.Resources = loadResources(config.ManagedResources)
 
+		log.Printf(color.HiMagentaString("[INFO] checking for data resources in directory: %s", v))
+		Final.Datas = loadDataResources(config.DataResources)
+
 		log.Printf(color.HiMagentaString("[INFO] checking for module calls in directory: %s", v))
 		Final.Modules = loadModules(config.ModuleCalls)
 
 		log.Printf(color.HiMagentaString("[INFO] checking for output calls in directory: %s", v))
-		for _, w := range config.Outputs {
-			Final.Outputs = append(Final.Outputs, Output{
-				Name:                   w.Name,
-				Description:            w.Description,
-				Sensitive:              w.Sensitive,
-				SourcePositionFileName: w.Pos.Filename,
-				SourcePositionLine:     strconv.Itoa(w.Pos.Line),
-			})
-		}
-		log.Printf(color.HiMagentaString("[INFO] checking for data resources in directory: %s", v))
-		for _, u := range config.DataResources {
-			Final.Datas = append(Final.Datas, Data{
-				DataType:               u.Type,
-				Name:                   u.Name,
-				ProviderName:           u.Provider.Name,
-				ProviderAlias:          u.Provider.Alias,
-				SourcePositionFileName: u.Pos.Filename,
-				SourcePositionLine:     strconv.Itoa(u.Pos.Line),
-				Link:                   DataResourceLinkBuilder(u.Provider.Name, u.Type),
-			})
-		}
+		Final.Outputs = loadOutputs(config.Outputs)
+
 		log.Printf(color.HiMagentaString("[INFO] checking for provider configs in directory: %s", v))
-		for _, u := range config.ProviderConfigs {
-			Final.Providers = append(Final.Providers, Provider{
-				Name:  u.Name,
-				Alias: u.Alias,
-				Link:  ProviderLinkBuilder(u.Name),
-			})
-		}
+		Final.Providers = loadProviders(config.ProviderConfigs)
 	}
 	return Final, nil
 }
@@ -134,6 +96,22 @@ func loadResources(m map[string]*tfconfig.Resource) []Resource {
 	return res
 }
 
+func loadDataResources(m map[string]*tfconfig.Resource) []Data {
+	var data []Data
+	for _, v := range m {
+		data = append(data, Data{
+			DataType:               v.Type,
+			Name:                   v.Name,
+			ProviderName:           v.Provider.Name,
+			ProviderAlias:          v.Provider.Alias,
+			SourcePositionFileName: v.Pos.Filename,
+			SourcePositionLine:     strconv.Itoa(v.Pos.Line),
+			Link:                   DataResourceLinkBuilder(v.Provider.Name, v.Type),
+		})
+	}
+	return data
+}
+
 func loadModules(m map[string]*tfconfig.ModuleCall) []Module {
 	var mod []Module
 	for _, v := range m {
@@ -146,4 +124,65 @@ func loadModules(m map[string]*tfconfig.ModuleCall) []Module {
 		})
 	}
 	return mod
+}
+
+func loadOutputs(m map[string]*tfconfig.Output) []Output {
+	var outer []Output
+	for _, v := range m {
+		outer = append(outer, Output{
+			Name:                   v.Name,
+			Description:            v.Description,
+			Sensitive:              v.Sensitive,
+			SourcePositionFileName: v.Pos.Filename,
+			SourcePositionLine:     strconv.Itoa(v.Pos.Line),
+		})
+	}
+	return outer
+}
+
+func loadProviders(m map[string]*tfconfig.ProviderConfig) []Provider {
+	var provider []Provider
+	for _, v := range m {
+		provider = append(provider, Provider{
+			Name:  v.Name,
+			Alias: v.Alias,
+			Link:  ProviderLinkBuilder(v.Name),
+		})
+	}
+	return provider
+}
+
+func walkDirectories(directory string) ([]string, error) {
+	var dirs []string
+
+	err := filepath.Walk(directory, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			dirs = append(dirs, path)
+		}
+		return nil
+	})
+	fmt.Println(len(dirs))
+	if err != nil {
+		return nil, err
+	}
+	return dirs, nil
+}
+
+func checkTerraformDirectories(directories []string) ([]string, error) {
+	var terraDirs []string
+	for _, v := range directories {
+		check := tfconfig.IsModuleDir(v)
+		if check {
+			terraDirs = append(terraDirs, v)
+			log.Printf(color.HiMagentaString("[INFO] 😎found config files for directory: %s😎", v))
+		}
+	}
+
+	if len(terraDirs) == 0 {
+		return nil, fmt.Errorf(color.HiRedString("[ERROR] 🚨found no configuration files for specified directory!!!!🚨"))
+	}
+	return terraDirs, nil
 }
