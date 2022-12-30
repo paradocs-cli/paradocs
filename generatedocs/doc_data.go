@@ -18,30 +18,14 @@ func GetDirs(s string) ([]string, error) {
 		log.Printf(color.HiMagentaString("[INFO] reading directory info for: %s", s))
 	}
 
-	var mods []string
-	var dirs []string
-	err := filepath.Walk(s, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
+	directories, err := walkDirectories(s)
 
-		dirs = append(dirs, path)
-		return nil
-	})
+	terraformDirectories, err := checkTerraformDirectories(directories)
 	if err != nil {
-		return mods, err
+		return nil, err
 	}
-	for _, v := range dirs {
-		check := tfconfig.IsModuleDir(v)
-		if check {
-			mods = append(mods, v)
-			log.Printf(color.HiMagentaString("[INFO] 😎found config files for directory: %s😎", v))
-		}
-	}
-	if len(mods) == 0 {
-		log.Fatalf(color.HiRedString("[ERROR] 🚨found no configuration files for specified directory!!!!🚨"))
-	}
-	return mods, nil
+
+	return terraformDirectories, nil
 }
 
 //GetData takes a slice of sting and creates JSON objects from data retrieved such as variables, resources, modules, etc
@@ -58,25 +42,23 @@ func GetData(s string) (Stats, error) {
 			return Stats{}, err
 		}
 		log.Printf(color.HiMagentaString("[INFO] checking for variables in directory: %s", v))
-		Final.Vars = loadVariables(config.Variables)
+		Final.Vars = append(Final.Vars, loadVariables(config.Variables)...)
 
 		log.Printf(color.HiMagentaString("[INFO] checking for resources in directory: %s", v))
-		Final.Resources = loadResources(config.ManagedResources)
+		Final.Resources = append(Final.Resources, loadResources(config.ManagedResources)...)
 
 		log.Printf(color.HiMagentaString("[INFO] checking for data resources in directory: %s", v))
-		Final.Datas = loadDataResources(config.DataResources)
+		Final.Datas = append(Final.Datas, loadDataResources(config.DataResources)...)
 
 		log.Printf(color.HiMagentaString("[INFO] checking for module calls in directory: %s", v))
-		Final.Modules = loadModules(config.ModuleCalls)
+		Final.Modules = append(Final.Modules, loadModules(config.ModuleCalls)...)
 
 		log.Printf(color.HiMagentaString("[INFO] checking for output calls in directory: %s", v))
-		Final.Outputs = loadOutputs(config.Outputs)
-		log.Println(Final.Outputs)
+		Final.Outputs = append(Final.Outputs, loadOutputs(config.Outputs)...)
 
 		log.Printf(color.HiMagentaString("[INFO] checking for provider configs in directory: %s", v))
-		Final.Providers = loadProviders(config.ProviderConfigs)
+		Final.Providers = append(Final.Providers, loadProviders(config.ProviderConfigs)...)
 	}
-	log.Println(Final)
 	return Final, nil
 }
 
