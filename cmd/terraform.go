@@ -1,16 +1,17 @@
 package cmd
 
 import (
-	"log"
-
+	"github.com/fatih/color"
 	generatedocs "github.com/paradocs-cli/paradocs/generatedocs"
-
 	"github.com/spf13/cobra"
+	"log"
 )
 
 var (
 	OutDir string
 )
+
+const colorRed = "\033[0;31m"
 
 // terraformCmd represents the terraform command
 var terraformCmd = &cobra.Command{
@@ -26,11 +27,13 @@ var terraformCmd = &cobra.Command{
 		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Printf("generating Terraform docs...")
+		log.Printf(color.GreenString("[INFO] generating Terraform docs for output in directory: %s", OutDir))
 		data, err := generatedocs.GetData(WorkingDir)
 		if err != nil {
 			log.Fatalf(err.Error())
 		}
+
+		log.Printf(color.GreenString("[INFO] writing docs to directory: %s", OutDir))
 		err = generatedocs.WriteMarkdownTerra(data, OutDir)
 		if err != nil {
 			log.Fatalf(err.Error())
