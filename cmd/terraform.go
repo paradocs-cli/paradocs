@@ -11,8 +11,6 @@ var (
 	OutDir string
 )
 
-const colorRed = "\033[0;31m"
-
 // terraformCmd represents the terraform command
 var terraformCmd = &cobra.Command{
 	Use:   "terraform",
