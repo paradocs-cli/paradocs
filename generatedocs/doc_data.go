@@ -18,14 +18,30 @@ func GetDirs(s string) ([]string, error) {
 		log.Printf(color.HiMagentaString("[INFO] reading directory info for: %s", s))
 	}
 
-	directories, err := walkDirectories(s)
+	var mods []string
+	var dirs []string
+	err := filepath.Walk(s, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
 
-	terraformDirectories, err := checkTerraformDirectories(directories)
+		dirs = append(dirs, path)
+		return nil
+	})
 	if err != nil {
-		return nil, err
+		return mods, err
 	}
-
-	return terraformDirectories, nil
+	for _, v := range dirs {
+		check := tfconfig.IsModuleDir(v)
+		if check {
+			mods = append(mods, v)
+			log.Printf(color.HiMagentaString("[INFO] 😎found config files for directory: %s😎", v))
+		}
+	}
+	if len(mods) == 0 {
+		log.Fatalf(color.HiRedString("[ERROR] 🚨found no configuration files for specified directory!!!!🚨"))
+	}
+	return mods, nil
 }
 
 //GetData takes a slice of sting and creates JSON objects from data retrieved such as variables, resources, modules, etc
@@ -55,10 +71,12 @@ func GetData(s string) (Stats, error) {
 
 		log.Printf(color.HiMagentaString("[INFO] checking for output calls in directory: %s", v))
 		Final.Outputs = loadOutputs(config.Outputs)
+		log.Println(Final.Outputs)
 
 		log.Printf(color.HiMagentaString("[INFO] checking for provider configs in directory: %s", v))
 		Final.Providers = loadProviders(config.ProviderConfigs)
 	}
+	log.Println(Final)
 	return Final, nil
 }
 

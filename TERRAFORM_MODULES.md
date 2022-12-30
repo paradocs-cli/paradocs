@@ -13,21 +13,21 @@
 
 <tbody>
 <tr>
-<td>linux_agents_westus2</td>
-<td>../modules/linux_agents</td>
-<td></td>
-<td>../cloud-2.0-ado-agents/terraform/src/main.tf</td>
-<td>29</td>
-</tr>
-</tbody>
-
-<tbody>
-<tr>
 <td>linux_agents_eastus2</td>
 <td>../modules/linux_agents</td>
 <td></td>
 <td>../cloud-2.0-ado-agents/terraform/src/main.tf</td>
 <td>45</td>
+</tr>
+</tbody>
+
+<tbody>
+<tr>
+<td>linux_agents_westus2</td>
+<td>../modules/linux_agents</td>
+<td></td>
+<td>../cloud-2.0-ado-agents/terraform/src/main.tf</td>
+<td>29</td>
 </tr>
 </tbody>
 
