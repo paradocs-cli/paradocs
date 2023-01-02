@@ -1,33 +1,40 @@
+/*
+Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+
+*/
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
-	"log"
 )
 
 // codeCmd represents the code command
 var codeCmd = &cobra.Command{
 	Use:   "code",
-	Short: "subcommand for calling code documentation",
-	Long: `subcommand code is used to direct paradocs to create
-	documentation for code via terraform, helm, etc:
-`,
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
+
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		log.Printf("Executing doc build for code")
+		fmt.Println("code called")
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(codeCmd)
-}
 
-func NewCodeCommand() *cobra.Command {
-	return &cobra.Command{
-		Use:   "code",
-		Short: "testing for code ",
-		Long:  `testing for functionality of code subcommand`,
-		Run: func(cmd *cobra.Command, args []string) {
-			log.Printf("Executing doc build for code")
-		},
-	}
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	// codeCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	// codeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

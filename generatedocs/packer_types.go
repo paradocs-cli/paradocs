@@ -6,20 +6,26 @@ type PackerAzureSourceBlock struct {
 		Sku       string
 		Publisher string
 	}
-	Tags              map[string]string
-	SubscriptionId    string
-	ClientId          string
-	ClientSecret      string
-	TenantId          string
-	Communicator      string
-	ManagedImageName  string
-	ManageImageRgName string
-	Location          string
-	OsType            string
-	SshUsername       string
-	SshPassword       string
-	SshPublicKey      string
-	SshPrivateKey     string
+	AzureAuth struct {
+		SubscriptionId string
+		ClientId       string
+		ClientSecret   string
+		TenantId       string
+	}
+	SshConfig struct {
+		SshUsername   string
+		SshPassword   string
+		SshPublicKey  string
+		SshPrivateKey string
+	}
+	ManagedImageConfig struct {
+		ManagedImageName  string
+		ManageImageRgName string
+	}
+	Tags         map[string]string
+	Communicator string
+	Location     string
+	OsType       string
 }
 
 type PackerAwsSourceBlock struct {
@@ -65,3 +71,5 @@ type PackerGcpSourceBlock struct {
 	SshPublicKey      string
 	SshPrivateKey     string
 }
+
+type BuildBlock struct{}
