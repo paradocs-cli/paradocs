@@ -14,7 +14,8 @@ build:
 
 test:
 	@echo "Starting test process for paradocs...."
-	@go test -v ./...
+	@go test -bench=. -benchtime=5s -benchmem -count=5
+	@go test -v ./... -bench=. -benchtime=10s -benchmem -count=5
 
 # Install go executable in path
 install:
