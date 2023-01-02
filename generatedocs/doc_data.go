@@ -162,7 +162,6 @@ func walkDirectories(directory string) ([]string, error) {
 		dirs = append(dirs, path)
 		return nil
 	})
-	fmt.Println(len(dirs))
 	if err != nil {
 		return nil, err
 	}

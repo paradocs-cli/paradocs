@@ -4,13 +4,17 @@ intro:
 	$(info "Post 'go install' exe will be added to path and can be called with 'paradocs'")
 
 ## Build go executable locally
-#build:
-#	@echo "Starting build process for paradocs...."
-#	@go build -o paradocs
-#	@chmod +x ./paradocs
-#	@mv ./paradocs /usr/local/bin
-#	@echo 'alias paradocs='paradocs'' >> ~/.bashrc
-#	@echo "Build process finished for paradocs...."
+build:
+	@echo "Starting build process for paradocs...."
+	@go build -o paradocs
+	@chmod +x ./paradocs
+	@mv ./paradocs /usr/local/bin
+	@echo 'alias paradocs='paradocs'' >> ~/.bashrc
+	@echo "Build process finished for paradocs...."
+
+test:
+	@echo "Starting test process for paradocs...."
+	@go test -v ./...
 
 # Install go executable in path
 install:
