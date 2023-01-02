@@ -37,7 +37,6 @@ var packerCmd = &cobra.Command{
 }
 
 func init() {
-	codeCmd.AddCommand(packerCmd)
 	packerCmd.PersistentFlags().StringVar(&WorkingDir, "working-dir", ".", "Working assets for running doc generation, defaults to '.'")
 	packerCmd.PersistentFlags().StringVar(&OutDir, "out-dir", ".", "Directory that markdown documentation should be exported to...")
 }

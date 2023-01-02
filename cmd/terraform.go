@@ -50,7 +50,6 @@ var terraformCmd = &cobra.Command{
 }
 
 func init() {
-	codeCmd.AddCommand(terraformCmd)
 	terraformCmd.PersistentFlags().StringVar(&WorkingDir, "working-dir", ".", "Working assets for running doc generation, defaults to '.'")
 	terraformCmd.PersistentFlags().StringVar(&OutDir, "out-dir", ".", "Directory that markdown documentation should be exported to...")
 }
