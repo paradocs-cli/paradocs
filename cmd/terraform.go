@@ -22,7 +22,7 @@ var terraformCmd = &cobra.Command{
 		--> Documents Modules
 		--> Documents Outputs
 		--> Documents Providers
-		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli
+		--> Make contributions at paradocs-cli: https://github.com/paradocs-cli/paradocs
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		if OutDir == "." {
